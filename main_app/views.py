@@ -4,11 +4,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from .forms import LoginForm, SkillForm
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms import LoginForm
+from .models import Skill
 
 # Create your views here.
-def index(request):
-    return render(request, 'index.html')
+def home(request):
+    return render(request, 'home.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -48,27 +50,20 @@ def signup(request):
         return render(request, 'signup.html', {'form': form})
 
 @login_required
-def profile(request, username):
-    if username == request.user.username:
-        user = User.objects.get(username=username)
-        # skills = Skill.objects.filter(user=user)
-        return render(request, 'profile.html', {'username': username}) #, 'cats': cats})
-    else:
-        return HttpResponseRedirect('/')
+def skill_list(request):
+    skills = request.user.skill_set.all()
+    return render(request, 'skills/list.html', { 'skills': skills })
 
-def add_skill(request, username):
-    # if username == request.user.username:
-    #     form = SkillForm(request.POST)
-    #     # validate the form
-    #     if form.is_valid():
-    #         # don't save the form to the db until it
-    #         # has the cat_id assigned
-
-    #     #     new_feeding = form.save(commit=False)
-    #     #     new_feeding.cat_id = cat_id
-    #     #     new_feeding.save()
-    #         return HttpResponseRedirect('/')
-    #     # return redirect('cats_detail', cat_id=cat_id)
-    # else:
-    #     return HttpResponseRedirect('/')
+def skill_detail(request, username):
     pass
+
+class SkillCreate(CreateView):
+    model = Skill
+    fields = '__all__'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect('/skills/')
+
