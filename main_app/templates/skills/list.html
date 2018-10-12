@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Skil List for {{ username }}</h1>
+<h1>Skill List for {{ user.username }}</h1>
 
 {% for skill in skills %}
     <div>
         <p>Skill Name: {{ skill.name }}</p>
-        <p>Description: {{ skill.description }}</p>
+        <a href="{% url 'skill_detail' skill.id %}">Skill detail</a>
     </div>
 {% endfor %}
 

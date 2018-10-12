@@ -54,12 +54,13 @@ def skill_list(request):
     skills = request.user.skill_set.all()
     return render(request, 'skills/list.html', { 'skills': skills })
 
-def skill_detail(request, username):
-    pass
+def skill_detail(request, pk):
+    skill = Skill.objects.get(id=pk)
+    return render(request, 'skills/detail.html', { 'skill': skill })
 
 class SkillCreate(CreateView):
     model = Skill
-    fields = '__all__'
+    fields = ['name', 'description', 'skill_level']
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

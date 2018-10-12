@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ username }}'s {{skill.name}} skill</h1>
+
+<div>
+    <p>Skill Name: {{ skill.name }}</p>
+    <p>Description: {{ skill.description }}</p>
+    <p>Level: {{skill.skill_level}}</p>
+</div>
+
+{% endblock %}
