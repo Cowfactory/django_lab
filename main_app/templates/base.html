@@ -1,36 +1,32 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Django Lab</title>
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
-    <!-- <script src="main.js"></script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Dev Skills</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <header>
-        <nav>
-            <a href="{% url 'index' %}">Home</a>
-            {% if user.is_authenticated %}
-            <span>Welcome, {{ user.username }}!</span>
-            <br>
-            <a href="{% url 'profile' user.username %}">My Skills</a>
-
-            <a href="{% url 'logout' %}">Logout</a>
+        {% if user.is_authenticated %}
+            Welcome {{user.username}}
+            <a href="{% url 'logout' %}">Log out</a>
+            <a href="{% url 'profile' %}">My Skills</a>
+            <a href="{% url 'add_skill' %}">Add Skill</a>
             {% else %}
-            <a href="{% url 'signup' %}">Sign Up</a>
-            <a href="{% url 'login' %}">Login</a>
-            {% endif %}
-        </nav>
+            <a href="{% url 'signup' %}">Sign up</a>
+            <a href="{% url 'login' %}">Sign in</a>
+        {% endif %}
     </header>
     <main>
         {% block content %}
+
         {% endblock %}
     </main>
-    <footer>
-
-    </footer>
+    <footer>footer</footer>
 </body>
 </html>
+
